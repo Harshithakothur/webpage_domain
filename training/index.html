@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Weekend Backend Development Training — build practical skills in APIs, databases, and server-side development." />
+  <title>Backend Launchpad | Weekend Training</title>
+  <style>
+    :root {
+      --ink: #17221f;
+      --muted: #63716b;
+      --paper: #f7f7f1;
+      --card: #ffffff;
+      --green: #c9f36a;
+      --deep: #183c32;
+      --line: #e3e8df;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    .wrap { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+    header {
+      padding: 22px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+    .brand { display: flex; align-items: center; gap: 11px; font-weight: 800; letter-spacing: -.04em; }
+    .brand-mark {
+      display: grid; place-items: center; width: 38px; height: 38px;
+      border-radius: 12px; background: var(--deep); color: var(--green); font-size: 20px;
+    }
+    .nav { display: flex; align-items: center; gap: 26px; color: var(--muted); font-size: 14px; }
+    .nav a:hover { color: var(--ink); }
+    .nav-cta {
+      color: var(--ink) !important; background: var(--green); padding: 10px 16px;
+      border-radius: 999px; font-weight: 750;
+    }
+    .hero {
+      position: relative; overflow: hidden; border-radius: 30px; background: var(--deep);
+      color: #fff; padding: clamp(32px, 6vw, 76px); min-height: 475px;
+      display: grid; grid-template-columns: 1.15fr .85fr; gap: 38px; align-items: center;
+    }
+    .hero::before {
+      content: ""; position: absolute; width: 380px; height: 380px; border-radius: 50%;
+      border: 1px solid rgba(201,243,106,.25); right: -110px; top: -120px;
+      box-shadow: 0 0 0 36px rgba(201,243,106,.035), 0 0 0 72px rgba(201,243,106,.025);
+    }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 9px; text-transform: uppercase;
+      letter-spacing: .13em; font-size: 11px; font-weight: 800; color: var(--green);
+    }
+    .eyebrow::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+    h1 { margin: 18px 0; max-width: 660px; font-size: clamp(42px, 6vw, 72px); line-height: .99; letter-spacing: -.065em; }
+    h1 span { color: var(--green); }
+    .hero-copy { max-width: 510px; color: #d0ddd6; font-size: 17px; }
+    .hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 14px; margin-top: 28px; }
+    .button {
+      display: inline-flex; align-items: center; justify-content: center; padding: 13px 19px;
+      border: 0; border-radius: 999px; font: inherit; font-weight: 800; cursor: pointer;
+      transition: transform .2s ease, opacity .2s ease;
+    }
+    .button:hover { transform: translateY(-2px); }
+    .button-primary { background: var(--green); color: var(--ink); }
+    .button-quiet { color: #fff; border: 1px solid rgba(255,255,255,.24); background: transparent; }
+    .hero-note { color: #bdcdc5; font-size: 12px; margin-top: 17px; }
+    .visual { position: relative; min-height: 300px; display: grid; place-items: center; }
+    .orbit {
+      position: absolute; width: min(100%, 330px); aspect-ratio: 1; border: 1px solid rgba(201,243,106,.32);
+      border-radius: 50%; transform: rotate(-18deg);
+    }
+    .orbit::after { content: ""; position: absolute; inset: 28px; border: 1px dashed rgba(201,243,106,.3); border-radius: 50%; }
+    .code-card {
+      z-index: 1; width: min(100%, 320px); border: 1px solid rgba(255,255,255,.13);
+      border-radius: 20px; background: #102b24; padding: 22px; box-shadow: 0 24px 70px rgba(0,0,0,.24);
+      transform: rotate(3deg);
+    }
+    .window-dots { display: flex; gap: 6px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,.1); }
+    .window-dots i { display: block; width: 7px; height: 7px; border-radius: 50%; background: #8ca59a; }
+    .code { font: 13px/2 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: #d7e6dc; margin-top: 14px; }
+    .code .lime { color: var(--green); } .code .soft { color: #91b4a3; }
+    .floating-tag {
+      position: absolute; z-index: 2; right: -2px; bottom: 20px; padding: 13px 16px;
+      border-radius: 14px; background: var(--green); color: var(--ink); font-size: 12px; font-weight: 800;
+      box-shadow: 0 12px 30px rgba(0,0,0,.18);
+    }
+    section { padding: 82px 0; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 30px; }
+    .kicker { text-transform: uppercase; letter-spacing: .14em; color: #65816f; font-size: 11px; font-weight: 850; }
+    h2 { margin: 8px 0 0; font-size: clamp(30px, 4vw, 45px); line-height: 1.08; letter-spacing: -.05em; }
+    .section-intro { color: var(--muted); max-width: 390px; margin: 0; font-size: 15px; }
+    .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .feature {
+      background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 25px;
+      min-height: 220px;
+    }
+    .feature-icon {
+      width: 44px; height: 44px; display: grid; place-items: center; border-radius: 14px;
+      background: #eef5e4; color: var(--deep); font-size: 21px; margin-bottom: 23px;
+    }
+    .feature h3 { margin: 0 0 8px; font-size: 18px; letter-spacing: -.025em; }
+    .feature p { margin: 0; color: var(--muted); font-size: 14px; }
+    .details { background: #edf1e8; }
+    .details-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 55px; align-items: start; }
+    .detail-list { display: grid; gap: 12px; }
+    .detail-row {
+      display: flex; align-items: flex-start; gap: 15px; padding: 17px 0;
+      border-bottom: 1px solid #d7e0d4;
+    }
+    .detail-row .symbol { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 11px; background: #fff; }
+    .detail-row strong { display: block; font-size: 14px; }
+    .detail-row span { display: block; color: var(--muted); font-size: 13px; margin-top: 2px; }
+    .curriculum { background: #fff; border-radius: 22px; border: 1px solid var(--line); padding: 26px; }
+    .curriculum h3 { margin: 0 0 16px; font-size: 19px; }
+    .module { display: flex; gap: 14px; padding: 14px 0; border-top: 1px solid var(--line); }
+    .module-num { color: #66805b; font: 800 12px ui-monospace, monospace; padding-top: 3px; }
+    .module strong { display: block; font-size: 14px; }
+    .module p { margin: 3px 0 0; color: var(--muted); font-size: 13px; }
+    .signup { padding: 82px 0; }
+    .signup-panel {
+      display: grid; grid-template-columns: .95fr 1.05fr; gap: 50px; padding: clamp(28px, 5vw, 58px);
+      background: var(--deep); color: #fff; border-radius: 28px;
+    }
+    .signup-panel h2 { max-width: 400px; }
+    .signup-panel .section-intro { color: #c5d4cc; margin-top: 17px; }
+    .pill-note { display: inline-block; border: 1px solid rgba(255,255,255,.22); border-radius: 999px; padding: 8px 12px; margin-top: 25px; color: #dce8df; font-size: 12px; }
+    form { display: grid; gap: 15px; align-content: start; }
+    label { display: block; font-size: 12px; font-weight: 750; margin-bottom: 7px; color: #e2ece5; }
+    input {
+      width: 100%; border: 1px solid rgba(255,255,255,.18); border-radius: 12px; padding: 14px 15px;
+      font: inherit; color: #fff; background: rgba(255,255,255,.07); outline: none;
+    }
+    input::placeholder { color: #aabeb3; }
+    input:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(201,243,106,.13); }
+    .form-help { color: #b9ccc0; font-size: 11px; margin: -5px 0 0; }
+    .form-message { display: none; border-radius: 10px; background: rgba(201,243,106,.12); color: var(--green); padding: 12px; font-size: 13px; }
+    footer { padding: 25px 0 35px; color: var(--muted); font-size: 12px; }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; gap: 18px; border-top: 1px solid var(--line); padding-top: 23px; }
+    @media (max-width: 800px) {
+      .hero, .details-grid, .signup-panel { grid-template-columns: 1fr; }
+      .hero { gap: 15px; }
+      .visual { min-height: 280px; }
+      .section-head { display: block; }
+      .section-intro { margin-top: 14px; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .feature { min-height: 0; }
+      .signup-panel { gap: 30px; }
+    }
+    @media (max-width: 540px) {
+      .wrap { width: min(100% - 28px, 1120px); }
+      header { padding: 16px 0; }
+      .nav a:not(.nav-cta) { display: none; }
+      .hero { border-radius: 22px; padding: 30px 23px; }
+      h1 { font-size: 48px; }
+      section, .signup { padding: 60px 0; }
+      .footer-inner { align-items: flex-start; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <a class="brand" href="#" aria-label="Backend Launchpad home">
+        <span class="brand-mark">&lt;/&gt;</span>
+        <span>backend<span style="color:#66805b">launchpad</span></span>
+      </a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="#curriculum">Curriculum</a>
+        <a href="#schedule">Schedule</a>
+        <a class="nav-cta" href="#register">Reserve a spot ↗</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div>
+          <div class="eyebrow">Upcoming weekend cohort</div>
+          <h1 id="hero-title">Build the logic <span>behind</span> the web.</h1>
+          <p class="hero-copy">A practical introduction to backend development. Learn how applications process requests, work with databases, and deliver reliable APIs—all in a weekend-friendly format.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#register">Join the interest list <span aria-hidden="true">&nbsp;↗</span></a>
+            <a class="button button-quiet" href="#curriculum">Explore the curriculum</a>
+          </div>
+          <p class="hero-note">Beginner-friendly · Hands-on learning · Weekend sessions</p>
+        </div>
+        <div class="visual" aria-hidden="true">
+          <div class="orbit"></div>
+          <div class="code-card">
+            <div class="window-dots"><i></i><i></i><i></i></div>
+            <div class="code">
+              <div><span class="soft">01</span> &nbsp;<span class="lime">app</span>.get(<span class="lime">"/api/learn"</span>)</div>
+              <div><span class="soft">02</span> &nbsp;async <span class="lime">function</span> start() {</div>
+              <div><span class="soft">03</span> &nbsp;&nbsp;const skills = [</div>
+              <div><span class="soft">04</span> &nbsp;&nbsp;&nbsp;<span class="lime">"APIs"</span>, <span class="lime">"SQL"</span>, <span class="lime">"Backend"</span></div>
+              <div><span class="soft">05</span> &nbsp;&nbsp;];</div>
+              <div><span class="soft">06</span> &nbsp;&nbsp;<span class="lime">return</span> skills;</div>
+              <div><span class="soft">07</span> &nbsp;}</div>
+            </div>
+          </div>
+          <div class="floating-tag">Your next skill starts here ↗</div>
+        </div>
+      </section>
+
+      <section id="curriculum">
+        <div class="section-head">
+          <div>
+            <div class="kicker">What you'll learn</div>
+            <h2>From request to response.</h2>
+          </div>
+          <p class="section-intro">Explore the building blocks that power modern applications, with concepts connected to practical examples.</p>
+        </div>
+        <div class="feature-grid">
+          <article class="feature">
+            <div class="feature-icon">⌘</div>
+            <h3>Server-side foundations</h3>
+            <p>Understand how backend applications work, how HTTP requests flow, and how routes, controllers, and business logic fit together.</p>
+          </article>
+          <article class="feature">
+            <div class="feature-icon">↔</div>
+            <h3>APIs & integrations</h3>
+            <p>Learn REST API fundamentals, request methods, status codes, JSON, validation, and how frontend applications communicate with a backend.</p>
+          </article>
+          <article class="feature">
+            <div class="feature-icon">▤</div>
+            <h3>Databases & data</h3>
+            <p>Discover relational database concepts, SQL basics, CRUD operations, and how backend services read and store application data.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="details" id="schedule">
+        <div class="wrap" style="width:100%">
+          <div class="details-grid">
+            <div>
+              <div class="kicker">Plan your weekends</div>
+              <h2>Make room for your next chapter.</h2>
+              <p class="section-intro" style="margin-top:16px">Designed to fit around a weekday schedule, with guided learning and time to practice between sessions.</p>
+              <div class="detail-list" style="margin-top:24px">
+                <div class="detail-row">
+                  <div class="symbol">◷</div>
+                  <div><strong>Weekend sessions</strong><span>Saturday and Sunday · Exact times to be announced</span></div>
+                </div>
+                <div class="detail-row">
+                  <div class="symbol">▦</div>
+                  <div><strong>Upcoming cohort</strong><span>Start date will be shared with interested participants</span></div>
+                </div>
+                <div class="detail-row">
+                  <div class="symbol">◎</div>
+                  <div><strong>Learning format</strong><span>Concepts, demonstrations, and guided practice</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="curriculum">
+              <h3>Your learning path</h3>
+              <div class="module">
+                <div class="module-num">01 /</div>
+                <div><strong>Backend essentials</strong><p>Client-server architecture, HTTP, routes, and request/response cycles.</p></div>
+              </div>
+              <div class="module">
+                <div class="module-num">02 /</div>
+                <div><strong>Build an API</strong><p>Endpoints, JSON, validation, error handling, and API testing basics.</p></div>
+              </div>
+              <div class="module">
+                <div class="module-num">03 /</div>
+                <div><strong>Connect a database</strong><p>SQL, tables, queries, and connecting data to backend logic.</p></div>
+              </div>
+              <div class="module">
+                <div class="module-num">04 /</div>
+                <div><strong>Put the pieces together</strong><p>Review a small end-to-end backend workflow and discuss next steps.</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="signup" id="register">
+        <div class="signup-panel">
+          <div>
+            <div class="eyebrow">Stay in the loop</div>
+            <h2>Ready to get started?</h2>
+            <p class="section-intro">Leave your details to express interest in the upcoming weekend backend training. We'll share the schedule and registration details once they're confirmed.</p>
+            <span class="pill-note">No dates announced yet · Details coming soon</span>
+          </div>
+          <form id="interestForm">
+            <div>
+              <label for="fullName">Your name</label>
+              <input id="fullName" name="fullName" type="text" placeholder="e.g. Alex Morgan" autocomplete="name" required />
+            </div>
+            <div>
+              <label for="phone">Phone number</label>
+              <input id="phone" name="phone" type="tel" placeholder="e.g. (555) 123-4567" autocomplete="tel" required />
+            </div>
+            <p class="form-help">Your information is for training follow-up. Connect this form to a backend or form service to collect submissions.</p>
+            <button class="button button-primary" type="submit">I'm interested&nbsp; ↗</button>
+            <div class="form-message" id="formMessage" role="status">Thanks! This demo form works on the page only; your details have not been sent or saved.</div>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-inner">
+        <a class="brand" href="#"><span class="brand-mark" style="width:30px;height:30px;border-radius:9px;font-size:15px">&lt;/&gt;</span><span>backendlaunchpad</span></a>
+        <span>© 2026 Backend Launchpad · Training details subject to confirmation</span>
+      </div>
+    </footer>
+  </div>
+  <script>
+    // Static demo: validates the fields and displays an on-page message.
+    // It does not transmit or store personal information.
+    document.getElementById("interestForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+      document.getElementById("formMessage").style.display = "block";
+    });
+  </script>
+</body>
+</html>
